@@ -5,18 +5,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comfy Reserve</title>
+    <title>[You title here]</title>
     <?php include_once "inc/shared/head.php"; ?>
     <?php include_once "inc/shared/navbar.php"; ?>
     <?php include_once "inc/shared/cookie-init.php"; ?>
+    <script>
+        function uploadFile(e){
+            var formData = new FormData();
+            formData.append("file",e.files[0]);
+            $.ajax({
+                method:"POST",
+                url:"actions/files/upload.action.php",
+                data:formData,
+                cache: false,
+        contentType: false,
+        processData: false,
+                success:function(result){
 
+                }
+            })
+        }
+    </script>
 </head>
 
 <body>
     <div class="container">
-
-        <?php include_once "partials/data.partial.php"; ?>
+        <form action="actions/restaurant/add.action.php" method="post" class="row mt-5">
+            <h1>Add restaurant</h1>
+            <div class="col-md-6">
+                <input type="text" name="name" class="form-control mb-2" placeholder="Name" />
+            </div>
+            <div class="col-md-6">
+                <input type="text" name="location" class="form-control mb-2" placeholder="Location" />
+            </div>
+            <div class="col-md-6">
+                <input type="text" name="cuisine" class="form-control mb-2" placeholder="Cuisine" />
+            </div>
+            <div class="col-md-6">
+                <select name="price_range" class="form-select mb-2">
+                    <option value="cheap">Cheap</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="expensive">Expensive</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <input type="file" class="form-control" onchange="uploadFile(this)">
+            </div>
+            <div class="files-container col-md-12"></div>
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-outline-dark rounded-pill" style="min-width: 150px;">Add</button>
+            </div>
+        </form>
+        <hr>
         <div class="row mt-3">
+            <h1>Your restaurants</h1>
             <?php
             include_once "inc/db/connection.php";
             $sql = "select * from restaurants";
@@ -57,26 +99,21 @@
                                         <?= $row["price_range"]; ?>
                                     </span>
                                 </p>
-                                <div class="d-flex">
-                                    <a href="book.php?id=<?= $row["id"] ?>" class="btn btn-outline-primary w-100" type="button">
-                                        <i class="bi bi-cart-plus-fill"></i>
-                                        book
-                </a>
-                                    <a href="reviews.php?id=<?= $row["id"] ?>" class="btn  btn-outline-primary w-100 ms-2" type="button">
-                                        <i class="bi bi-chat"></i>
-                                        review
-                </a>
-                                </div>
                             </div>
-
                         </div>
                     </div>
                 <?php }
             } ?>
         </div>
 
+        <!-- <a href="#">edit</a>
+                                <a href="actions/restaurant/delete.action.php?id=<?= $row["id"] ?>">Delete</a>
+                                <a href="reviews.php?id=<?= $row["id"] ?>">Leave a review</a> -->
+
 
     </div>
+
+
     <?php include_once "inc/shared/footer.php"; ?>
 </body>
 
