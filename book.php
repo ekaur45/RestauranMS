@@ -69,7 +69,7 @@
                                 <div class="align-items-end d-flex flex-row justify-content-end text-end w-100">
                                     <a href="index.php" class="btn btn-outline-dark rounded-pill" style="min-width: 150px;">
                                         Cancel
-                </a>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -101,8 +101,8 @@
             <div class="col-md-12">
                 <button type="submit" class="btn btn-outline-dark rounded-pill" style="min-width: 150px;">Book</button>
             </div>
+        </form>
     </div>
-    </form>
 
 
     <?php include_once "inc/shared/footer.php"; ?>

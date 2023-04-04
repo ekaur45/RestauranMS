@@ -23,14 +23,14 @@
                 success: function (result) {
                     let div = document.createElement("div");
                     div.classList = "position-relative";
-                    let btnRemove =document.createElement("button");
-                    let icon =document.createElement("i");
+                    let btnRemove = document.createElement("button");
+                    let icon = document.createElement("i");
                     icon.classList = "bi bi-trash";
                     btnRemove.append(icon);
                     btnRemove.classList = "bg-light btn btn-sm position-absolute text-danger";
                     btnRemove.style = "right:3px;top:3px";
-                    btnRemove.type = "button";                    
-                    btnRemove.onclick = (e)=>{
+                    btnRemove.type = "button";
+                    btnRemove.onclick = (e) => {
                         e.currentTarget.parentNode.remove()
                     }
                     div.append(btnRemove);
@@ -101,7 +101,7 @@
                                 </div>
                                 <ul class="d-flex list-unstyled ps-2 pe-2 rounded-pill bg-light ms-2">
                                     <li class="me-2">
-                                        <a href="#" class="text-info">
+                                        <a href="#" onclick="getRestaurant('<?= $row["id"] ?>')" class="text-info">
                                             <i class="bi bi-pencil"></i>
                                         </a>
                                     </li>
@@ -150,9 +150,72 @@
 
 
     </div>
+    <div class="modal fade" id="editRestaurantModal" tabindex="-1" aria-labelledby="editRestaurantModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form action="actions/restaurant/update.action.php" method="post" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRestaurantModalLabel">Update <span class="text-black-50"
+                            id="restaurant"></span> </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" name="id" id="restaurant_id">
+                        <div class="col-md-6">
+                            <input type="text" name="name" id="name" class="form-control mb-2" placeholder="Name" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="location" id="location" class="form-control mb-2" placeholder="Location" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="cuisine" id="cuisine" class="form-control mb-2" placeholder="Cuisine" />
+                        </div>
+                        <div class="col-md-6">
+                            <select name="price_range" id="price_range" class="form-select mb-2">
+                                <option value="cheap">Cheap</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="expensive">Expensive</option>
+                            </select>
+                        </div>
+                        <!-- <div class="col-md-12">
+                            <input type="file" class="form-control mb-2" onchange="uploadFile(this)">
+                        </div>
+                        <div id="files-container" class="d-flex flex-wrap">
 
+                        </div> -->
+                        <!-- <div class="col-md-12 d-flex justify-content-end">
+                            <button class="btn btn-outline-dark rounded-pill" style="min-width: 150px;">Add</button>
+                        </div> -->
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal"
+                        style="min-width: 150px;">Cancel</button>
+                    <button type="submit" style="min-width: 150px;"
+                        class="btn btn-outline-dark rounded-pill">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <?php include_once "inc/shared/footer.php"; ?>
+    <script>
+        var model = new bootstrap.Modal("#editRestaurantModal");
+        function getRestaurant(id) {
+            $.get("actions/restaurant/one.action.php?id=" + id).then(x => {
+                if (x) {
+                    $("#restaurant").text(x.name);
+                    $("#restaurant_id").val(x.id);
+                    $("#name").val(x.name);
+                    $("#location").val(x.location);
+                    $("#cuisine").val(x.cuisine);
+                    $("#price_range").val(x.price_range);
+                    model.show();
+                }
+            })
+        }
+    </script>
 </body>
 
 </html>

@@ -34,3 +34,12 @@ function __select($sql){
   }
   return [];
 }
+
+function __selectOne($sql){
+  global $conn;
+  $result = $conn->query($sql);
+  if($result&&$result->num_rows>0){
+    return $result->fetch_assoc();
+  }
+  return null;
+}

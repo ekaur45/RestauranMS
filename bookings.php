@@ -13,7 +13,7 @@
     $user = null;
     if ($isLoggedIn) {
         $user = $_SESSION["USER"];
-    }else{
+    } else {
         header("Location: login.php");
     }
     ?>
@@ -52,7 +52,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $sql = "select *,(select `name` from users where id = user_id) as userName,(select `name` from restaurants where id = restaurant_id) as restaurant from bookings".($user["role"]=='user'?"where user_id=" . $user["id"] . "":"");                        
+                        <?php $sql = "select *,(select `name` from users where id = user_id) as userName,(select `name` from restaurants where id = restaurant_id) as restaurant from bookings" . ($user["role"] == 'user' ? "where user_id=" . $user["id"] . "" : "");
                         $bookings = __select($sql);
                         if (sizeof($bookings) > 0) {
                             for ($i = 0; $i < sizeof($bookings); $i++) {
@@ -80,7 +80,7 @@
                                     <td>
                                         <ul class="list-unstyled d-flex mb-0 justify-content-center gap-2">
                                             <li>
-                                                <a href="bookings.php?id=<?= $row["id"] ?>" class="text-info">
+                                                <a href="#" onclick="getBooking('<?= $row["id"] ?>')" class="text-info">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             </li>
@@ -115,7 +115,57 @@
         </div>
 
     </div>
+    <div class="modal fade" id="editBookingModal" tabindex="-1" aria-labelledby="editBookingModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="actions/booking/update.action.php" method="post" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBookingModalLabel">Update <span class="text-black-50" id="user"></span> booking at <span class="text-black-50" id="restaurant"></span> </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" name="booking_id" id="booking_id">
+                        <input type="hidden" name="restaurant_id" id="restaurant_id">
+                        <div class="col-md-6">
+                            <input type="date" name="date" id="date" placeholder="Date" class="form-control mb-2">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="time" name="time" id="time" class="form-control mb-2">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" name="party_size" id="party_size" class="form-control mb-2"
+                                placeholder="Party size">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill"
+                        data-bs-dismiss="modal" style="min-width: 150px;">Cancel</button>
+                    <button type="submit" style="min-width: 150px;" class="btn btn-outline-dark rounded-pill">Update</button>
+                </div>
+                    </form>
+        </div>
+    </div>
+
     <?php include_once "inc/shared/footer.php"; ?>
+    <script>
+        var model = new bootstrap.Modal("#editBookingModal");
+        function getBooking(id) {
+            $.get("actions/booking/one.action.php?id=" + id).then(x => {
+                if (x) {
+                    $("#booking_id").val(x.id);
+                    $("#restaurant_id").val(x.restaurant_id);
+                    $("#date").val(x.date);
+                    $("#time").val(x.time);
+                    $("#party_size").val(x.party_size);
+                    $("#user").text(x.userName);
+                    $("#restaurant").text(x.restaurant);
+                    model.show();
+                }
+            })
+        }
+    </script>
 </body>
 
 </html>
