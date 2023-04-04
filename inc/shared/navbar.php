@@ -3,6 +3,10 @@ $isLoggedIn = false;
 if (isset($_SESSION["USER"])) {
   $isLoggedIn = true;
 }
+$query = "";
+if (isset($_GET["q"])) {
+    $query = $_GET["q"];
+}
 function isActive($page)
 {
     return basename($_SERVER['PHP_SELF']) == $page ? "active":"";
@@ -36,7 +40,7 @@ function isActive($page)
         </li>
       </ul>
       <form class="d-flex me-2">
-        <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" name="q">
+        <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" name="q" value="<?=$query?>">
         <button class="btn btn-outline-dark rounded-pill" type="submit">Search</button>
       </form>
       <?php if (!$isLoggedIn) { ?>

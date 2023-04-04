@@ -9,17 +9,38 @@
     <?php include_once "inc/shared/cookie-init.php"; ?>
     <?php include_once "inc/shared/head.php"; ?>
     <?php include_once "inc/shared/navbar.php"; ?>
+    <?php include_once "inc/db/connection.php"; ?>
+    <?php
+
+    $whereCondi = "";
+    if ($query) {
+        $query = __escape($query);
+        $whereCondi = " where cuisine like '%$query%' or price_range = '$query' or location like '%$query%' or `name` like '%$query%'";
+    }
+    ?>
 
 </head>
 
 <body>
     <div class="container">
-
+        <?php if ($query): ?>
+            <div>
+                <span style="font-weight: 600;">
+                    Search text:
+                </span>
+                <span class="text-black-50">
+                    "
+                    <?= $query ?>"
+                </span>
+                <a href="index.php" class="ms-3">
+                    Clear search
+                </a>
+            </div>
+        <?php endif; ?>
         <?php include_once "partials/data.partial.php"; ?>
         <div class="row mt-3">
             <?php
-            include_once "inc/db/connection.php";
-            $sql = "select *,(select image from restaurant_images where restaurant_id = restaurants.id limit 1) as image from restaurants";
+            $sql = "select *,(select image from restaurant_images where restaurant_id = restaurants.id limit 1) as image from restaurants " . $whereCondi;
             $restaurants = __select($sql);
             if (sizeof($restaurants) > 0) {
                 for ($i = 0; $i < sizeof($restaurants); $i++) {
@@ -29,14 +50,16 @@
                         <div class="card position-ralative">
                             <div class="rating-container position-absolute">
                                 <div class="rating">
-                                    <?php $ratingSql = "select ROUND(ifnull(sum(rating),0)/count(rating),1) as rating from reviews where restaurant_id = ".$row["id"];
-                                        $rating = 0;
-                                        $result = __select($ratingSql);
-                                        if(sizeof($result)>0){
-                                            $rating = $result[0]["rating"];
-                                        }
+                                    <?php $ratingSql = "select ROUND(ifnull(sum(rating),0)/count(rating),1) as rating from reviews where restaurant_id = " . $row["id"];
+                                    $rating = 0;
+                                    $result = __select($ratingSql);
+                                    if (sizeof($result) > 0) {
+                                        $rating = $result[0]["rating"];
+                                    }
                                     ?>
-                                    <span><?=$rating?></span>
+                                    <span>
+                                        <?= $rating ?>
+                                    </span>
                                     <i class="bi bi-star-fill text-warning"></i>
                                 </div>
                             </div>
@@ -69,18 +92,32 @@
                                     <a href="book.php?id=<?= $row["id"] ?>" class="btn btn-outline-primary w-100" type="button">
                                         <i class="bi bi-cart-plus-fill"></i>
                                         book
-                </a>
-                                    <a href="reviews.php?id=<?= $row["id"] ?>" class="btn  btn-outline-primary w-100 ms-2" type="button">
+                                    </a>
+                                    <a href="reviews.php?id=<?= $row["id"] ?>" class="btn  btn-outline-primary w-100 ms-2"
+                                        type="button">
                                         <i class="bi bi-chat"></i>
                                         review
-                </a>
+                                    </a>
                                 </div>
                             </div>
 
                         </div>
                     </div>
                 <?php }
-            } ?>
+            } else {
+                if ($query) { ?>
+                    <div class="bg-light no-comment-found p-3 text-center">
+                        <img src="assets/img/no-data.svg" alt="" style="width: 150px;" class="mb-3">
+                        <h4 class="text-black-50">No restaurant found against "<span
+                                style="font-weight: 600;color:#000 !important" class="text-black">
+                                <?= $query ?>
+                            </span> ".</h4>
+                        <a href="index.php">Clear search &times;</a>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
         </div>
 
 
