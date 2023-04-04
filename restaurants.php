@@ -106,7 +106,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="actions/restaurant/delete.action.php?id=<?= $row["id"] ?>" class="text-danger">
+                                        <a href="actions/restaurant/delete.action.php?id=<?= $row["id"] ?>" onclick="return delConfirm()" class="text-danger">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </li>

@@ -86,7 +86,7 @@
                                             </li>
                                             <li>
                                                 <a href="actions/booking/delete.action.php?id=<?= $row["id"] ?>"
-                                                    class="text-danger">
+                                                    onclick="return delConfirm()" class="text-danger">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </li>
@@ -120,7 +120,8 @@
         <div class="modal-dialog">
             <form action="actions/booking/update.action.php" method="post" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editBookingModalLabel">Update <span class="text-black-50" id="user"></span> booking at <span class="text-black-50" id="restaurant"></span> </h5>
+                    <h5 class="modal-title" id="editBookingModalLabel">Update <span class="text-black-50"
+                            id="user"></span> booking at <span class="text-black-50" id="restaurant"></span> </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -140,11 +141,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill"
-                        data-bs-dismiss="modal" style="min-width: 150px;">Cancel</button>
-                    <button type="submit" style="min-width: 150px;" class="btn btn-outline-dark rounded-pill">Update</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal"
+                        style="min-width: 150px;">Cancel</button>
+                    <button type="submit" style="min-width: 150px;"
+                        class="btn btn-outline-dark rounded-pill">Update</button>
                 </div>
-                    </form>
+            </form>
         </div>
     </div>
 

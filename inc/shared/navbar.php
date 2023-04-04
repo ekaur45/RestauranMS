@@ -60,3 +60,9 @@ function isActive($page)
     </div>
   </div>
 </nav>
+
+<script>
+  function delConfirm(text='Are you sure you want to delete?'){
+    return confirm(text);
+  }
+</script>
