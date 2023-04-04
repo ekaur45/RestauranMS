@@ -5,23 +5,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[You title here]</title>
+    <title>Restaurants</title>
+    <?php include_once "inc/shared/cookie-init.php"; ?>
     <?php include_once "inc/shared/head.php"; ?>
     <?php include_once "inc/shared/navbar.php"; ?>
-    <?php include_once "inc/shared/cookie-init.php"; ?>
     <script>
-        function uploadFile(e){
+        function uploadFile(e) {
             var formData = new FormData();
-            formData.append("file",e.files[0]);
+            formData.append("file", e.files[0]);
             $.ajax({
-                method:"POST",
-                url:"actions/files/upload.action.php",
-                data:formData,
+                method: "POST",
+                url: "actions/files/upload.action.php",
+                data: formData,
                 cache: false,
-        contentType: false,
-        processData: false,
-                success:function(result){
-
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    let div = document.createElement("div");
+                    div.classList = "position-relative";
+                    let btnRemove =document.createElement("button");
+                    let icon =document.createElement("i");
+                    icon.classList = "bi bi-trash";
+                    btnRemove.append(icon);
+                    btnRemove.classList = "bg-light btn btn-sm position-absolute text-danger";
+                    btnRemove.style = "right:3px;top:3px";
+                    btnRemove.type = "button";                    
+                    btnRemove.onclick = (e)=>{
+                        e.currentTarget.parentNode.remove()
+                    }
+                    div.append(btnRemove);
+                    let img = document.createElement("img");
+                    img.src = result;
+                    img.style = "height:64px;width:64px";
+                    div.append(img);
+                    let el = document.createElement("input");
+                    el.type = "hidden";
+                    el.name = "files[]";
+                    el.value = result;
+                    div.append(el);
+                    $("#files-container").append(div);
                 }
             })
         }
@@ -49,9 +71,11 @@
                 </select>
             </div>
             <div class="col-md-12">
-                <input type="file" class="form-control" onchange="uploadFile(this)">
+                <input type="file" class="form-control mb-2" onchange="uploadFile(this)">
             </div>
-            <div class="files-container col-md-12"></div>
+            <div id="files-container" class="d-flex flex-wrap">
+
+            </div>
             <div class="col-md-12 d-flex justify-content-end">
                 <button class="btn btn-outline-dark rounded-pill" style="min-width: 150px;">Add</button>
             </div>
@@ -61,7 +85,7 @@
             <h1>Your restaurants</h1>
             <?php
             include_once "inc/db/connection.php";
-            $sql = "select * from restaurants";
+            $sql = "select *,(select image from restaurant_images where restaurant_id = restaurants.id limit 1) as image from restaurants";
             $restaurants = __select($sql);
             if (sizeof($restaurants) > 0) {
                 for ($i = 0; $i < sizeof($restaurants); $i++) {
@@ -69,14 +93,28 @@
                     ?>
                     <div class="col-md-3">
                         <div class="card position-ralative">
-                            <div class="rating-container position-absolute">
+                            <div class="rating-container position-absolute d-flex">
                                 <div class="rating">
                                     <span>3.5</span>
                                     <i class="bi bi-star-fill text-warning"></i>
+
                                 </div>
+                                <ul class="d-flex list-unstyled ps-2 pe-2 rounded-pill bg-light ms-2">
+                                    <li class="me-2">
+                                        <a href="#" class="text-info">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="actions/restaurant/delete.action.php?id=<?= $row["id"] ?>" class="text-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <img src="https://toohotel.com/wp-content/uploads/2022/09/TOO_restaurant_Panoramique_vue_Paris_Seine_Tour_Eiffel_2.jpg"
-                                class="card-img-top" alt="">
+                            <div class="card-img-top" style="max-height: 200px;">
+                                <img src="<?= $row["image"] ?>" alt="" style="max-height: 200px;width: 100%;">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <?= $row["name"]; ?>
@@ -95,7 +133,7 @@
                                 </p>
                                 <p>
                                     <i class="bi bi-currency-dollar"></i>
-                                    <span>
+                                    <span class="text-capitalize">
                                         <?= $row["price_range"]; ?>
                                     </span>
                                 </p>

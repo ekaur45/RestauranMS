@@ -5,107 +5,116 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[You title here]</title>
+    <title>Bookings</title>
+    <?php include_once "inc/shared/cookie-init.php"; ?>
     <?php include_once "inc/shared/head.php"; ?>
     <?php include_once "inc/shared/navbar.php"; ?>
-    <?php include_once "inc/shared/cookie-init.php"; ?>
-
+    <?php
+    $user = null;
+    if ($isLoggedIn) {
+        $user = $_SESSION["USER"];
+    }else{
+        header("Location: login.php");
+    }
+    ?>
 </head>
 
 <body>
-    <?php include_once "partials/data.partial.php"; ?>
+    <div class="container">
 
-    <form action="actions/booking/add.action.php" method="post">
-        Restaurant
-        <select name="restaurant_id" id="">
-            <?php include_once "inc/db/connection.php";
-            $sql = "select * from restaurants";
-            $restaurants = __select($sql);
-            if (sizeof($restaurants) > 0) {
-                for ($i = 0; $i < sizeof($restaurants); $i++) {
-                    $row = $restaurants[$i];
-                    ?>
-                    <option value="<?= $row["id"] ?>"><?= $row["name"] ?></option>
-                    <?php
-                }
-            }
+        <?php include_once "partials/data.partial.php"; ?>
+        <div class="row pt-5">
+            <div class="col-md-12" style="overflow: auto;">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>
+                                No.
+                            </th>
+                            <th>
+                                Restaurant
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Time
+                            </th>
+                            <th>
+                                Party size
+                            </th>
+                            <th class="text-center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $sql = "select *,(select `name` from users where id = user_id) as userName,(select `name` from restaurants where id = restaurant_id) as restaurant from bookings".($user["role"]=='user'?"where user_id=" . $user["id"] . "":"");                        
+                        $bookings = __select($sql);
+                        if (sizeof($bookings) > 0) {
+                            for ($i = 0; $i < sizeof($bookings); $i++) {
+                                $row = $bookings[$i];
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $i + 1 ?>
+                                    </td>
+                                    <td>
+                                        <?= $row["restaurant"] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row["userName"] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row["date"] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row["time"] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row["party_size"] ?>
+                                    </td>
+                                    <td>
+                                        <ul class="list-unstyled d-flex mb-0 justify-content-center gap-2">
+                                            <li>
+                                                <a href="bookings.php?id=<?= $row["id"] ?>" class="text-info">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="actions/booking/delete.action.php?id=<?= $row["id"] ?>"
+                                                    class="text-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="bg-light no-comment-found p-3 text-center">
+                                        <img src="assets/img/no-data.svg" alt="" style="width: 150px;" class="mb-3">
+                                        <h4 class="text-black-50">You have no bookings.</h4>
+                                        <a href="index.php">Click to add booking.</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            ?>
-        </select>
-        <br>
-        Date
-        <input type="date" name="date" id="">
-        <br>
-        Time
-        <input type="time" name="time" id="">
-        <br>
-        Party size
-        <input type="number" name="party_size" id="">
-        <br>
-        <button>Add</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    No.
-                </th>
-                <th>
-                    Restaurant
-                </th>
-                <th>
-                    User
-                </th>
-                <th>
-                    Date
-                </th>
-                <th>
-                    Time
-                </th>
-                <th>
-                    Party size
-                </th>
-                <th>
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $sql = "select *,(select `name` from users where id = user_id) as userName,(select `name` from restaurants where id = restaurant_id) as restaurant from bookings";
-            $bookings = __select($sql);
-            if (sizeof($bookings) > 0) {
-                for ($i = 0; $i < sizeof($bookings); $i++) {
-                    $row = $bookings[$i];
-                    ?>
-                    <tr>
-                        <td>
-                            <?= $i + 1 ?>
-                        </td>
-                        <td>
-                            <?= $row["restaurant"] ?>
-                        </td>
-                        <td>
-                            <?= $row["userName"] ?>
-                        </td>
-                        <td>
-                            <?= $row["date"] ?>
-                        </td>
-                        <td>
-                            <?= $row["time"] ?>
-                        </td>
-                        <td>
-                            <?= $row["party_size"] ?>
-                        </td>
-                        <td>
-                            Action
-                        </td>
-                    </tr>
-                    <?php
-                }
-            }
-            ?>
-        </tbody>
-    </table>
+    </div>
     <?php include_once "inc/shared/footer.php"; ?>
 </body>
 

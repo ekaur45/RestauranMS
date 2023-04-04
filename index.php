@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comfy Reserve</title>
+    <?php include_once "inc/shared/cookie-init.php"; ?>
     <?php include_once "inc/shared/head.php"; ?>
     <?php include_once "inc/shared/navbar.php"; ?>
-    <?php include_once "inc/shared/cookie-init.php"; ?>
 
 </head>
 
@@ -19,7 +19,7 @@
         <div class="row mt-3">
             <?php
             include_once "inc/db/connection.php";
-            $sql = "select * from restaurants";
+            $sql = "select *,(select image from restaurant_images where restaurant_id = restaurants.id limit 1) as image from restaurants";
             $restaurants = __select($sql);
             if (sizeof($restaurants) > 0) {
                 for ($i = 0; $i < sizeof($restaurants); $i++) {
@@ -29,12 +29,20 @@
                         <div class="card position-ralative">
                             <div class="rating-container position-absolute">
                                 <div class="rating">
-                                    <span>3.5</span>
+                                    <?php $ratingSql = "select ROUND(ifnull(sum(rating),0)/count(rating),1) as rating from reviews where restaurant_id = ".$row["id"];
+                                        $rating = 0;
+                                        $result = __select($ratingSql);
+                                        if(sizeof($result)>0){
+                                            $rating = $result[0]["rating"];
+                                        }
+                                    ?>
+                                    <span><?=$rating?></span>
                                     <i class="bi bi-star-fill text-warning"></i>
                                 </div>
                             </div>
-                            <img src="https://toohotel.com/wp-content/uploads/2022/09/TOO_restaurant_Panoramique_vue_Paris_Seine_Tour_Eiffel_2.jpg"
-                                class="card-img-top" alt="">
+                            <div class="card-img-top" style="max-height: 200px;">
+                                <img src="<?= $row["image"] ?>" alt="" style="max-height: 200px;width: 100%;">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <?= $row["name"]; ?>
@@ -53,7 +61,7 @@
                                 </p>
                                 <p>
                                     <i class="bi bi-currency-dollar"></i>
-                                    <span>
+                                    <span class="text-capitalize">
                                         <?= $row["price_range"]; ?>
                                     </span>
                                 </p>

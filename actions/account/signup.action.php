@@ -10,4 +10,8 @@ if(sizeof(__select($checkUser))>0){
 }else{
     $query = "INSERT INTO users (`name`,email,`password`,`role`)values('$_name','$_email','$_hashed','user')";
     $result = __execute($query);
+    $_users = __select($checkUser);
+    $_SESSION["ID"] = $_users[0]["id"];
+    $_SESSION["USER"] = $_users[0];
+    header("Location: ../../index.php");
 }

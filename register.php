@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <?php include_once "inc/shared/cookie-init.php"; ?>
     <?php include_once "inc/shared/head.php"; ?>
     <?php include_once "inc/shared/navbar.php"; ?>
-    <?php include_once "inc/shared/cookie-init.php"; ?>
 </head>
 
 <body>
