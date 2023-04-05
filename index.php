@@ -50,7 +50,7 @@
                         <div class="card position-ralative">
                             <div class="rating-container position-absolute">
                                 <div class="rating">
-                                    <?php $ratingSql = "select ROUND(ifnull(sum(rating),0)/count(rating),1) as rating from reviews where restaurant_id = " . $row["id"];
+                                    <?php $ratingSql = "select ifnull(ROUND(ifnull(sum(rating),0)/count(rating),1),0) as rating from reviews where restaurant_id = " . $row["id"];
                                     $rating = 0;
                                     $result = __select($ratingSql);
                                     if (sizeof($result) > 0) {
