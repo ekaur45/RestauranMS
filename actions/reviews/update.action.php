@@ -7,4 +7,5 @@ $_rating = __escape($_POST["rating"]);
 $_comments = __escape($_POST["comments"]);
 $sql = "UPDATE `reviews` SET `rating`='$_rating',`comments`='$_comments' WHERE id=$_review_id ;";
 __execute($sql);
+$_SESSION["MSG"] = "Review updated successfully.";
 header("Location: ../../reviews.php");

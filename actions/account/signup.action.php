@@ -6,12 +6,13 @@ $_password = __escape($_POST["password"]);
 $_hashed = md5($_password);
 $checkUser = "SELECT * FROM users where email='$_email'";
 if(sizeof(__select($checkUser))>0){
-    echo "User already exists";
+    $_SESSION["ERROR"]  = "User already exists";
 }else{
     $query = "INSERT INTO users (`name`,email,`password`,`role`)values('$_name','$_email','$_hashed','user')";
     $result = __execute($query);
     $_users = __select($checkUser);
     $_SESSION["ID"] = $_users[0]["id"];
     $_SESSION["USER"] = $_users[0];
+    $_SESSION["MSG"] = "User created successfuly";
     header("Location: ../../index.php");
 }

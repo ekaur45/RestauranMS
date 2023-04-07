@@ -10,10 +10,12 @@ if(sizeof($_users)>0){
     if($_hashed==$_users[0]["password"]){
         $_SESSION["ID"] = $_users[0]["id"];
         $_SESSION["USER"] = $_users[0];
-        header("Location: ../../index.php");
+        $_SESSION["MSG"] = "Login successful.";
+       return header("Location: ../../index.php");
     }else{
-        echo "Email or password is not correct.";
+        $_SESSION["ERROR"]= "Email or password is not correct.";
     }
 }else{
-    echo "User not exists";
+    $_SESSION["ERROR"]= "User not exists";
 }
+header("Location: ../../login.php");

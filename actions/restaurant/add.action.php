@@ -16,5 +16,5 @@ foreach ($_POST["files"] as $value) {
     $sql1 = "insert into restaurant_images(restaurant_id,image)values('$id','$value')";
     __execute($sql1);
 }
-
+$_SESSION["MSG"] = "Restaurant added successfuly.";
 header("Location: ../../restaurants.php");

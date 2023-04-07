@@ -9,4 +9,5 @@ $_party_size = __escape($_POST["party_size"]);
 $userid = $_SESSION["ID"];
 $sql = "UPDATE `bookings` set `date`='$_date',`time`='$_time',`party_size`='$_party_size' WHERE id = $id  ;";
 __execute($sql);
+$_SESSION["MSG"] = "Booking updated successfuly.";
 header("Location: ../../bookings.php");

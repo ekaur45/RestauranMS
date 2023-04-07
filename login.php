@@ -20,8 +20,8 @@
             <div class="col-md-6">
                 <h1>Login</h1>
                 <form action="actions/account/login.action.php" method="post">
-                    <input type="email" name="email" class="form-control mb-2" placeholder="Email" />
-                    <input type="password" name="password" class="form-control mb-2" placeholder="Password">
+                    <input type="email" name="email" class="form-control mb-2" placeholder="Email" required />
+                    <input type="password" name="password" class="form-control mb-2" placeholder="Password" required>
                     <button class="btn btn-outline-dark rounded-pill" style="min-width: 100px;">login </button>
                 </form>
             </div>

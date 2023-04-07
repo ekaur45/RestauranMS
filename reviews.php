@@ -46,13 +46,13 @@
             <h1>Reviews</h1>
             <?php
             include_once "inc/db/connection.php";
-            $sql = "select *,(select image from restaurant_images where restaurant_id = restaurants.id limit 1) as image from restaurants";
+            $sql = "select *,(select image from restaurant_images where restaurant_id = restaurants.id limit 1) as image from restaurants where id = $id";
             $restaurants = __select($sql);
             if (sizeof($restaurants) > 0) {
                 for ($i = 0; $i < sizeof($restaurants); $i++) {
                     $row = $restaurants[$i];
                     ?>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-3">
                         <div class="card position-ralative">
                             <div class="rating-container position-absolute">
                             <div class="rating">

@@ -17,5 +17,5 @@ __execute($sql);
 //     $sql1 = "insert into restaurant_images(restaurant_id,image)values('$id','$value')";
 //     __execute($sql1);
 // }
-
+$_SESSION["MSG"] = "Restaurant updated successfully.";
 header("Location: ../../restaurants.php");

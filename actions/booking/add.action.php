@@ -9,4 +9,5 @@ $_party_size = __escape($_POST["party_size"]);
 $userid = $_SESSION["ID"];
 $sql = "INSERT INTO `bookings`(`restaurant_id`,`user_id`,`date`,`time`,`party_size`)VALUES('$_restaurant_id','$userid','$_date','$_time','$_party_size');";
 __execute($sql);
+$_SESSION["MSG"] = "Booking added.";
 header("Location: ../../bookings.php");
