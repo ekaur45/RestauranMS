@@ -14,17 +14,18 @@
 <body>
     <div class="container">
         <div class="row pt-5">
-            <div class="col-md-6">
-                <h1 class="text-primary">Create an account to stay in loop!</h1>
-            </div>
-            <div class="col-md-6">
-                <h1>Register</h1>
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                    <h1>Register</h1>
                 <form action="actions/account/signup.action.php" method="post">
                     <input type="text" name="name" class="form-control mb-2" placeholder="Name" />
                     <input type="email" name="email" class="form-control mb-2" placeholder="Email" />
                     <input type="password" name="password" class="form-control mb-2" placeholder="Password" />
                     <button class="btn btn-outline-dark rounded-pill" style="min-width: 100px;">Signup</button>
                 </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
