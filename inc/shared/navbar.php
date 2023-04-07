@@ -24,9 +24,6 @@ function isActive($page)
         <li class="nav-item">
           <a class="nav-link <?= isActive("index.php") ?>" aria-current="page" href="index.php">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <?= isActive("reviews.php") ?>" href="reviews.php">Reviews</a>
-        </li>
         <?php if ($isLoggedIn && $_SESSION["USER"]["role"] == "admin"): ?>
           <li class="nav-item">
             <a class="nav-link <?= isActive("restaurants.php") ?>" href="restaurants.php" tabindex="-1">Restaurants</a>

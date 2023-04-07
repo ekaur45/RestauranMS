@@ -48,6 +48,21 @@
                     ?>
                     <div class="col-md-3">
                         <div class="card position-ralative">
+                            <div class="reviews-counter-container position-absolute">
+                                <?php $reviewSql = "select ifnull(COUNT(id),0) as reviews_count from reviews where restaurant_id = " . $row["id"];
+                                $reviews = 0;
+                                $result1 = __select($reviewSql);
+                                if (sizeof($result1) > 0) {
+                                    $reviews = $result1[0]["reviews_count"];
+                                }
+                                ?>
+                                <a class="review-counter" href="reviews.php?id=<?=$row["id"]?>">
+                                    <span class="text-dark">
+                                        <?= $reviews ?>
+                                    </span>
+                                    <span class="text-black-50">Reviews</span>
+                                </a>
+                            </div>
                             <div class="rating-container position-absolute">
                                 <div class="rating">
                                     <?php $ratingSql = "select ifnull(ROUND(ifnull(sum(rating),0)/count(rating),1),0) as rating from reviews where restaurant_id = " . $row["id"];
@@ -93,7 +108,7 @@
                                         <i class="bi bi-cart-plus-fill"></i>
                                         book
                                     </a>
-                                    <a href="reviews.php?id=<?= $row["id"] ?>" class="btn  btn-outline-primary w-100 ms-2"
+                                    <a href="add-review.php?id=<?= $row["id"] ?>" class="btn  btn-outline-primary w-100 ms-2"
                                         type="button">
                                         <i class="bi bi-chat"></i>
                                         review

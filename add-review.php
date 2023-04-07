@@ -15,7 +15,7 @@
         $id = $_GET["id"];
     }
     $user = null;
-    if ($isLoggedIn) {
+    if($isLoggedIn){
         $user = $_SESSION["USER"];
     }
     ?>
@@ -24,6 +24,25 @@
 
 <body>
     <div class="container">
+        <div class="row">
+
+            <?php if ($id && $isLoggedIn) { ?>
+                <h1>Leave a review</h1>
+                <form action="actions/reviews/add.action.php" method="post">
+                    <input type="hidden" name="id" value="<?= $id ?>" class="form-control mb-2">
+                    <select name="rating" id="" class="form-control mb-2">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <textarea name="comments" placeholder="Comments" class="form-control mb-2"></textarea>
+                    <button class="btn btn-outline-dark rounded-pill" style="min-width: 150px;">Add comment</button>
+                </form>
+            <?php } ?>
+
+        </div>
         <div class="row mt-3">
             <h1>Reviews</h1>
             <div class="col-md-12">
@@ -137,6 +156,8 @@
         </div>
 
 
+
+
     </div>
     <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel"
         aria-hidden="true">
@@ -149,16 +170,15 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="hidden" name="review_id" id="review_id">
-                            <select name="rating" id="rating" class="form-control mb-2">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                            <textarea name="comments" placeholder="Comments" id="comments"
-                                class="form-control mb-2"></textarea>
+                        <input type="hidden" name="review_id" id="review_id">
+                        <select name="rating" id="rating" class="form-control mb-2">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <textarea name="comments" placeholder="Comments" id="comments" class="form-control mb-2"></textarea>
                         </div>
                     </div>
                 </div>
