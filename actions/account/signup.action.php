@@ -7,6 +7,9 @@ $_hashed = md5($_password);
 $checkUser = "SELECT * FROM users where email='$_email'";
 if(sizeof(__select($checkUser))>0){
     $_SESSION["ERROR"]  = "User already exists";
+
+header("Location: ../../signup.php");
+
 }else{
     $query = "INSERT INTO users (`name`,email,`password`,`role`)values('$_name','$_email','$_hashed','user')";
     $result = __execute($query);
