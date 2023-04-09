@@ -136,11 +136,15 @@
                                         </p>
                                     </div>
                                     <?php
-                                }
-                            } else { ?>
+                                } ?>
                                 <div class="bg-light no-comment-found p-3 text-center">
-                                    <h4 class="text-black-50">No review found on this restaurant.</h4>
-                                    <a href="reviews.php?id=<?= $row["id"] ?>">Add your review</a>
+                                    <a href="reviews.php?id=<?= $row1["id"] ?>">Add your review</a>
+                                </div>
+                                
+                            <?php } else { ?>
+                                <div class="bg-light no-comment-found p-3 text-center">
+                                    <h4 class="text-black-50">No reviews found on this restaurant.</h4>
+                                    <a href="reviews.php?id=<?= $row1["id"] ?>">Add your review</a>
                                 </div>
                             <?php } ?>
                         </div>
