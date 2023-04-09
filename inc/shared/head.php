@@ -13,5 +13,4 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-    
 </script>

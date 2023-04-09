@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[You title here]</title>
+    <title>Reservation System</title>
     <?php include_once "inc/shared/cookie-init.php"; ?>
     <?php include_once "inc/shared/head.php"; ?>
     <?php include_once "inc/shared/navbar.php";
@@ -96,7 +96,7 @@
                 <input type="time" name="time" id="" class="form-control mb-2">
             </div>
             <div class="col-md-6">
-                <input type="number" name="party_size" id="" class="form-control mb-2" placeholder="Party size">
+                <input type="number" name="party_size" id="" class="form-control mb-2" placeholder="Persons">
             </div>
             <div class="col-md-12">
                 <button type="submit" class="btn btn-outline-dark rounded-pill" style="min-width: 150px;">Book</button>

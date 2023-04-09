@@ -44,7 +44,7 @@
                                 Time
                             </th>
                             <th>
-                                Party size
+                            Persons
                             </th>
                             <th class="text-center">
                                 Action
@@ -52,7 +52,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $sql = "select *,(select `name` from users where id = user_id) as userName,(select `name` from restaurants where id = restaurant_id) as restaurant from bookings" . ($user["role"] == 'user' ? "where user_id=" . $user["id"] . "" : "");
+                        <?php $sql = "select *,(select `name` from users where id = user_id) as userName,(select `name` from restaurants where id = restaurant_id) as restaurant from bookings" . ($user["role"] == 'user' ? " where user_id=" . $user["id"] . "" : "");
                         $bookings = __select($sql);
                         if (sizeof($bookings) > 0) {
                             for ($i = 0; $i < sizeof($bookings); $i++) {
@@ -136,7 +136,7 @@
                         </div>
                         <div class="col-md-6">
                             <input type="number" name="party_size" id="party_size" class="form-control mb-2"
-                                placeholder="Party size">
+                                placeholder="Persons">
                         </div>
                     </div>
                 </div>
